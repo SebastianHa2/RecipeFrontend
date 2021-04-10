@@ -6,7 +6,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/recipes', alias: '/', name:'recipes', component: () => import('./components/AllRecipes.vue')
+            path: '/', alias: '/recipes', name:'recipes', component: () => import('./components/AllRecipes.vue')
         },
         {
             path: '/recipes/recipe/edit-recipe/:id', name:'edit-recipe', component: () => import('./components/EditRecipe.vue')

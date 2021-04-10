@@ -127,4 +127,12 @@ export default {
         border: 0.2rem solid #000;
         color: #000;
     }
+
+    /* Media queries */ 
+
+    @media(max-width: 1100px){
+        .input-container{
+            width: 70vw;
+        }
+    }
 </style>

@@ -147,4 +147,25 @@ export default {
   .navigation ul .active a{
     color: #000;
   }
+
+  /* Media queries */
+
+  @media(max-width: 600px ){
+    .navigation{
+      height: auto;
+    }
+
+    .navigation ul{
+      flex-direction: column;
+    }
+
+    .navigation ul li{
+      width: 100%;
+      height: 5rem;
+    }
+
+    .loggedIn{
+      top: 22rem;
+    }
+  }
 </style>

@@ -64,7 +64,7 @@ export default {
         align-items: center;
         background-color: rgba(253, 244, 152, 0.8);
         border-radius: 0.5rem;
-        margin: 0 3rem;
+        margin: 3rem 3rem;
     }
 
     .recipe h1{

@@ -110,9 +110,9 @@ p{
     }
 
     .recipe-options{
-        height: 8rem;
+        height: 11rem;
         margin-top: 2rem;
-        padding-bottom: 3rem;
+        padding-bottom: 7rem;
         display: flex;
         justify-content: center;
     }
@@ -141,5 +141,17 @@ p{
     .recipe-options a:hover{
         background-color: rgba(253, 244, 152, 1);
         cursor: pointer;
+    }
+
+    /* Media queries */ 
+    @media(max-width: 1150px){
+        .recipe{
+            flex-direction: column;
+        }
+
+        .recipe-image{
+            margin-right: 0;
+            margin-bottom: 3rem;
+        }
     }
 </style>

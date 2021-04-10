@@ -92,7 +92,7 @@ export default {
 
     .input-container{
         min-height: 90vh;
-        width: 40vw;
+        width: 50vw;
         margin: auto;
         display: flex;
         flex-direction: column;
@@ -136,5 +136,13 @@ export default {
         background: #fff;
         border: 0.2rem solid #000;
         color: #000;
+    }
+
+    /* Media queries */ 
+
+    @media(max-width: 1100px){
+        .input-container{
+            width: 70vw;
+        }
     }
 </style>

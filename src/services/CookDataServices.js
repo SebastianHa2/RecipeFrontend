@@ -18,7 +18,7 @@ class CookDataService {
     }
 
     isLoggedIn() {
-        return http.get('/is-logged-in')
+        return http.get('/cooks/is-logged-in')
     }
 }
 

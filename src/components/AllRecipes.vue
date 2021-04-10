@@ -52,6 +52,7 @@ export default {
         display: flex;
         justify-content: center;
         padding: 1rem;
+        flex-wrap: wrap;
     }
 
     .recipe{

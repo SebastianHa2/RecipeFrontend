@@ -2,11 +2,11 @@
   <div id="app">
     <nav class="navigation">
       <ul>
-        <li class="nav-item" @click="active = 'allRecipes'" ><router-link to="/">All Recipes</router-link></li>
-        <li class="nav-item"><router-link to="/recipes/add-recipe">Add a Recipe</router-link></li>
-        <li v-if="loggedInAsId == null" class="nav-item"><router-link to="/cooks/register">Register as a Cook</router-link></li>
-        <li v-if="loggedInAsId == null" class="nav-item"><router-link to="/cooks/log-in">Log In</router-link></li>
-        <li v-if="loggedInAsId" class="nav-item"><router-link to="/recipes/my-recipes">My Recipes</router-link></li>
+        <li class="nav-item" :class="{active: this.getRouteName === '/'}" ><router-link to="/">All Recipes</router-link></li>
+        <li v-if="loggedInAsId" class="nav-item" :class="{active: this.getRouteName == '/recipes/add-recipe'}"><router-link to="/recipes/add-recipe">Add a Recipe</router-link></li>
+        <li v-if="loggedInAsId == null" class="nav-item" :class="{active: this.getRouteName == '/cooks/register'}"><router-link to="/cooks/register">Register as a Cook</router-link></li>
+        <li v-if="loggedInAsId == null" class="nav-item" :class="{active: this.getRouteName == '/cooks/log-in'}"><router-link to="/cooks/log-in">Log In</router-link></li>
+        <li v-if="loggedInAsId" class="nav-item" :class="{active: this.getRouteName == '/recipes/my-recipes'}"><router-link to="/recipes/my-recipes">My Recipes</router-link></li>
         <li v-if="loggedInAsId" class="nav-item"><a @click="logOut">Log Out</a></li>
       </ul>
     </nav>
@@ -18,30 +18,50 @@
 </template>
 
 <script>
-
+import CookDataService from './services/CookDataServices'
 export default {
   name: 'App',
   data() {
     return{
-      active: '',
-      loggedInAsId: null,
-      loggedInAsUsername: ''
+      loggedIn: false,
+      loggedInAsUsername: '',
+      loggedInAsId: null
+    }
+  },
+  computed: {
+    getRouteName() {
+        return this.$route.path.toString();
     }
   },
   methods: {
-    setLoggedInAs(id, username) {
-      this.loggedInAsId = id
+    setLoggedInAs(loggedIn, username, id) {
+      this.loggedIn = loggedIn
       this.loggedInAsUsername = username
+      this.loggedInAsId = id
     },
     logOut() {
       this.loggedInAsId = null
       this.loggedInAsUsername = ''
+      CookDataService.logOutCook().then(() => {
+        console.log('successfully logged out')
+        this.$router.push('/')
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   provide() {
     return {
       setLoggedInAs: this.setLoggedInAs
     }
+  },
+  mounted() {
+    CookDataService.isLoggedIn().then(response => {
+      this.setLoggedInAs(response.data.isLoggedIn, response.data.isLoggedInAs[0].username, response.data.isLoggedInAs[0].id)
+      this.$router.push('/')
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
@@ -118,5 +138,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .active{
+    background-color: rgba(253, 244, 152, 1);
+  }
+
+  .navigation ul .active a{
+    color: #000;
   }
 </style>

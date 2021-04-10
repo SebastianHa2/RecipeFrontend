@@ -10,7 +10,7 @@
                 <p>{{ activeRecipe.instructions }}</p>
             </div>
         </div>
-        <div class="recipe-options" v-if="activeRecipe && loggedIn.loggedInAsId === activeRecipe.cookId">
+        <div class="recipe-options" v-if="activeRecipe && loggedInAsId.loggedInAsId === activeRecipe.cookId">
             <a class="edit" @click="$router.push(`/recipes/recipe/edit-recipe/${activeRecipe.id}`)">Edit</a>
             <a class="delete" @click="deleteRecipe(activeRecipe.id)">Delete</a>
         </div>
@@ -25,8 +25,7 @@ export default {
     data() {
         return {
             activeRecipe: null,
-            message: '',
-            loggedIn: this.loggedInAsId
+            message: ''
         }
     },
     methods: {
@@ -49,7 +48,6 @@ export default {
 
     mounted() {
         this.getRecipe(this.$route.params.id)
-        console.log(this.loggedIn)
     }
 }
 </script>

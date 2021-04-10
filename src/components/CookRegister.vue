@@ -28,6 +28,7 @@
 import CookDataService from '../services/CookDataServices.js'
 export default {
     name: "Cook Register",
+    props: ["loggedInAsId"],
     data() {
         return {
             username: '',
@@ -72,6 +73,11 @@ export default {
                         }
                     }
             })
+        }
+    },
+    beforeMount() {
+        if(this.loggedInAsId.loggedInAsId !== null) {
+            this.$router.push('/')
         }
     }
 }

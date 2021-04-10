@@ -9,8 +9,16 @@ class CookDataService {
         return http.post('/cooks/log-in', data)
     }
 
+    logOutCook() {
+        return http.post('/cooks/log-out')
+    }
+
     getAll() {
         return http.get('/cooks')
+    }
+
+    isLoggedIn() {
+        return http.get('/is-logged-in')
     }
 }
 

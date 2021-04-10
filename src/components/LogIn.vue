@@ -19,6 +19,7 @@
 import CookDataService from '../services/CookDataServices'
 export default {
     name: "Log In",
+    props: ["loggedInAsId"],
     data() {
         return {
             username: '',
@@ -34,15 +35,20 @@ export default {
             }
 
             CookDataService.logInCook(user).then(response => {
-                console.log(response.data.user[0].username)
-                this.setLoggedInAs(response.data.user[0].id, response.data.user[0].username)
+                console.log(response)
+                this.setLoggedInAs(response.data.isLoggedIn, response.data.isLoggedInAs[0].username, response.data.isLoggedInAs[0].id)
                 this.$router.push('/recipes')
             }).catch(() => {
                 this.incorrect = true
             })
         }
     },
-    inject: ['setLoggedInAs']
+    inject: ['setLoggedInAs'],
+    beforeMount() {
+        if(this.loggedInAsId.loggedInAsId !== null) {
+            this.$router.push('/')
+        }
+    }
 }
 </script>
 

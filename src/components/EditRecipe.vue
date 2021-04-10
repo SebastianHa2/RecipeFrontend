@@ -52,6 +52,12 @@ export default {
     },
     mounted() {
         this.getRecipe(this.$route.params.id)
+    },
+    props: ['loggedInAsId'],
+    beforeMount() {
+        if(this.loggedInAsId.loggedInAsId === null) {
+            this.$router.push('/')
+        }
     }
 }
 </script>

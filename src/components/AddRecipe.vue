@@ -63,7 +63,12 @@ export default {
             })
         }
     },
-    props: ['loggedInAsId']
+    props: ['loggedInAsId'],
+    beforeMount() {
+        if(this.loggedInAsId.loggedInAsId === null) {
+            this.$router.push('/')
+        }
+    }
 }
 </script>
 

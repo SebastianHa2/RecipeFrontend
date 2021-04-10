@@ -27,7 +27,6 @@ export default {
         fetchAll() {
             RecipeDataService.getAll().then(response => {
                 this.recipes = response.data
-                console.log(response.data)
             }).catch(err => {
                 console.log(err.message)
             })

@@ -32,7 +32,6 @@ export default {
         getRecipe(id) {
             RecipeDataService.getOne(id).then(response => {
                 this.activeRecipe = response.data
-                console.log(response.data)
             }).catch(err => {
                 console.log(err.message)
             })

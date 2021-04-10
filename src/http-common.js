@@ -3,7 +3,7 @@ import axios from 'axios'
 // We will initialize axios here
 
 export default axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: 'https://sebastian-recipe-saver.herokuapp.com/',
     headers: {'Content-Type': 'application/json'},
     withCredentials: true
 })

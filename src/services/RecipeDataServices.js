@@ -4,8 +4,8 @@ import http from '../http-common'
 // So we can then export the class and use it in our components
 
 class RecipeDataService {
-    getAll() {
-        return http.get('/recipes')
+    getAll(page, size) {
+        return http.get(`/recipes?page=${page}&size=${size}`)
     }
 
     getOne(id) {

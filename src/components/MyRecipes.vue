@@ -19,14 +19,15 @@ export default {
             recipes: [],
             activeRecipe: null,
             activeIndex: -1,
-            title: ''
+            title: '',
+            numberOfPages: null
         }
     },
     methods: {
         // Fetch all the recipes
-        fetchAll() {
-            RecipeDataService.getAll().then(response => {
-                response.data.forEach(recipe => {
+        fetchAll(page, size) {
+            RecipeDataService.getAll(page, size).then(response => {
+                response.data.recipes.rows.forEach(recipe => {
                     if(recipe.cookId == this.loggedInAsId.loggedInAsId){
                         this.recipes.push(recipe)
                     }
@@ -37,7 +38,7 @@ export default {
         }
     },
     mounted() {
-        this.fetchAll()
+        this.fetchAll(0, 3)
     },
     props: ['loggedInAsId'],
     beforeMount() {

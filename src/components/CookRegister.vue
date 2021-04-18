@@ -7,13 +7,13 @@
             <div class="input-group">
                 <label for="username">Username: </label>
                 <input :class="{errorBorder: shortUsername}" @focus="shortUsername = false, usernameTaken=false" type="text" id="username" v-model="username">
-                <div class="error-message" v-if="shortUsername">Username must be at least 3 characters long</div>
+                <div class="error-message" v-if="shortUsername">Username must be at least 4 and no longer than 10 characters</div>
                 <div class="error-message" v-if="usernameTaken">Username is already taken</div>
             </div>
             <div class="input-group">
                 <label for="password">Password: </label>
                 <input :class="{errorBorder: unmatchedPassword}" @focus="unmatchedPassword = false" type="password" id="password" v-model="password">
-                <div class="error-message" v-if="unmatchedPassword">Passwords must match and be at least 5 characters long!</div>
+                <div class="error-message error-message-password" v-if="unmatchedPassword">Minimum 6 and maximum 20, containing uppercase, lowercase, special characters and digits</div>
             </div>
             <div class="input-group">
                 <label for="confirmPassword">Confirm Password: </label>
@@ -44,7 +44,8 @@ export default {
         registerNewCook() {
             const newCook = {
                 username: this.username,
-                password: this.password
+                password: this.password,
+                confirmPassword: this.confirmPassword
             }
             CookDataService.getAll().then(response => {
                 response.data.forEach(user => {
@@ -62,7 +63,15 @@ export default {
                                 this.message = ''
                             }, 2000)
                         }).catch(err => {
-                            console.log(err.message)
+                            err.response.data.errors.forEach(error => {
+                                if(error.param === 'password'){
+                                    this.unmatchedPassword = true
+                                }
+                                if(error.param === 'username'){
+                                    this.shortUsername = true
+                                }
+
+                            })
                         })
                     }else{
                         if(this.username.length < 3){
@@ -103,7 +112,7 @@ export default {
 
     .input-container{
         min-height: 90vh;
-        width: 40vw;
+        width: 60vw;
         margin: auto;
         display: flex;
         flex-direction: column;
@@ -141,6 +150,7 @@ export default {
         position: absolute;
         bottom: -2rem;
         left: 0;
+        color: red;
     }
 
     button{
@@ -158,5 +168,21 @@ export default {
         background: #fff;
         border: 0.2rem solid #000;
         color: #000;
+    }
+
+    @media(max-width: 650px){
+        .input-container{
+            width: 80vw;
+        }
+    }
+
+    @media(max-width: 500px){
+        .input-group{
+            margin: 3rem 0;
+        }
+
+        .error-message-password{
+            bottom: -3.5rem;
+        }
     }
 </style>

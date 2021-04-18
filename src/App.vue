@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navigation">
       <ul>
-        <li class="nav-item" :class="{active: this.getRouteName === '/'}" ><router-link to="/">All Recipes</router-link></li>
+        <li class="nav-item" :class="{active: this.getRouteName === '/' || this.getRouteName === '/recipes'}" ><router-link to="/">All Recipes</router-link></li>
         <li v-if="loggedInAsId" class="nav-item" :class="{active: this.getRouteName == '/recipes/add-recipe'}"><router-link to="/recipes/add-recipe">Add a Recipe</router-link></li>
         <li v-if="loggedInAsId == null" class="nav-item" :class="{active: this.getRouteName == '/cooks/register'}"><router-link to="/cooks/register">Register as a Cook</router-link></li>
         <li v-if="loggedInAsId == null" class="nav-item" :class="{active: this.getRouteName == '/cooks/log-in'}"><router-link to="/cooks/log-in">Log In</router-link></li>
@@ -25,7 +25,8 @@ export default {
     return{
       loggedIn: false,
       loggedInAsUsername: '',
-      loggedInAsId: null
+      loggedInAsId: null,
+      csrf: ''
     }
   },
   computed: {
@@ -40,10 +41,10 @@ export default {
       this.loggedInAsId = id
     },
     logOut() {
-      this.loggedInAsId = null
-      this.loggedInAsUsername = ''
       CookDataService.logOutCook().then(() => {
         console.log('successfully logged out')
+        this.loggedInAsId = null
+        this.loggedInAsUsername = ''
         this.$router.push('/')
       }).catch(err => {
         console.log(err)
@@ -55,10 +56,9 @@ export default {
       setLoggedInAs: this.setLoggedInAs
     }
   },
-  mounted() {
+  beforeMount() {
     CookDataService.isLoggedIn().then(response => {
       this.setLoggedInAs(response.data.isLoggedIn, response.data.isLoggedInAs[0].username, response.data.isLoggedInAs[0].id)
-      this.$router.push('/')
     }).catch(err => {
       console.log(err)
     })

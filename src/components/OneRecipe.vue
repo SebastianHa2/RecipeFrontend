@@ -7,7 +7,11 @@
             <div class="recipe-description">
                 <h1>{{ activeRecipe.title }}</h1>
                 <h3>Approximate cooking time: {{ activeRecipe.duration }} minutes</h3>
-                <p>{{ activeRecipe.instructions }}</p>
+                <ul class="instructions-list">
+                    <li v-for="(step, index) in instructions" :key="instructions[step]">
+                        <span class="index">{{index}}:</span> {{step}}
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="recipe-options" v-if="activeRecipe && loggedInAsId.loggedInAsId === activeRecipe.cookId">
@@ -25,13 +29,16 @@ export default {
     data() {
         return {
             activeRecipe: null,
+            instructions: {},
             message: ''
         }
     },
     methods: {
         getRecipe(id) {
             RecipeDataService.getOne(id).then(response => {
-                this.activeRecipe = response.data
+                this.activeRecipe = response.data.recipe
+                this.instructions = {...JSON.parse(this.activeRecipe.instructions)}
+                
             }).catch(err => {
                 console.log(err.message)
             })
@@ -39,6 +46,7 @@ export default {
         deleteRecipe(id) {
             RecipeDataService.delete(id).then(() => {
                 console.log('Recipe was successfully deleted!')
+                this.$router.push({path: '/', query:{msg: 'deleted'}})
             }).catch(err => {
                 console.log(err.message)
             })
@@ -66,6 +74,7 @@ p{
         height: auto;
         margin: auto;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: space-between;
         padding: 5rem;
@@ -74,8 +83,8 @@ p{
     .recipe-image {
         width: 35rem;
         height: 30rem;
-        margin-right: 10rem;
         border-radius: 0.3rem;
+        margin-bottom: 3rem;
     }
 
     .recipe-image img{
@@ -85,7 +94,7 @@ p{
     }
 
     .recipe-description{
-        width: 70%;
+        width: 80%;
         height: 100%;
         color: #fff;
         text-align: center;
@@ -106,6 +115,17 @@ p{
 
     .recipe-description p {
         font-size: 1.8rem;
+    }
+
+    .instructions-list li{
+        font-size: 1.5rem;
+        margin: 2rem 0;
+        border-bottom: 0.1rem solid #fff;
+    }
+
+    .index{
+        font-size: 2rem;
+        margin-right: 1rem;
     }
 
     .recipe-options{
@@ -142,15 +162,4 @@ p{
         cursor: pointer;
     }
 
-    /* Media queries */ 
-    @media(max-width: 1150px){
-        .recipe{
-            flex-direction: column;
-        }
-
-        .recipe-image{
-            margin-right: 0;
-            margin-bottom: 3rem;
-        }
-    }
 </style>

@@ -1,9 +1,9 @@
 import axios from 'axios'
-
+import jsCookie from 'js-cookie'
 // We will initialize axios here
 
 export default axios.create({
-    baseURL: 'https://sebastian-recipe-saver.herokuapp.com/',
-    headers: {'Content-Type': 'application/json'},
-    withCredentials: true
+    baseURL: '/',
+    headers: {'Content-Type': 'application/json', 'x-csrf-token': jsCookie.get('XSRF-TOKEN')},
+    withCredentials: true,
 })

@@ -4,6 +4,6 @@ import jsCookie from 'js-cookie'
 
 export default axios.create({
     baseURL: '/',
-    headers: {'Content-Type': 'application/json', 'x-csrf-token': jsCookie.get('XSRF-TOKEN')},
+    headers: {'Content-Type': 'application/json', 'x-csrf-token': jsCookie.get('XSRF-TOKEN'), 'json-web-token': jsCookie.get('jwt')},
     withCredentials: true,
 })

@@ -35,7 +35,8 @@ export default {
             }
 
             CookDataService.logInCook(user).then(response => {
-                this.setLoggedInAs(response.data.isLoggedIn, response.data.isLoggedInAs[0].username, response.data.isLoggedInAs[0].id)
+                console.log(response)
+                this.setLoggedInAs(true, response.data.user[0].username, response.data.user[0].id)
                 this.$router.push('/recipes')
             }).catch(() => {
                 this.incorrect = true

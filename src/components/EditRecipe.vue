@@ -55,7 +55,7 @@ export default {
     methods: {
         getRecipe(id) {
             RecipeDataService.getOne(id).then(response => {
-                this.activeRecipe = response.data
+                this.activeRecipe = response.data.recipe
                 this.instructions = {...JSON.parse(this.activeRecipe.instructions)}
 
                 this.stepCount = Object.keys(this.instructions).length + 1

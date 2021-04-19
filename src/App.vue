@@ -19,6 +19,7 @@
 
 <script>
 import CookDataService from './services/CookDataServices'
+import jsCookie from 'js-cookie'
 export default {
   name: 'App',
   data() {
@@ -42,6 +43,7 @@ export default {
     },
     logOut() {
       CookDataService.logOutCook().then(() => {
+        jsCookie.remove('jwt')
         console.log('successfully logged out')
         this.loggedInAsId = null
         this.loggedInAsUsername = ''
@@ -58,7 +60,7 @@ export default {
   },
   beforeMount() {
     CookDataService.isLoggedIn().then(response => {
-      this.setLoggedInAs(response.data.isLoggedIn, response.data.isLoggedInAs[0].username, response.data.isLoggedInAs[0].id)
+      this.setLoggedInAs(true, response.data.user[0].username, response.data.user[0].id)
     }).catch(err => {
       console.log(err)
     })
